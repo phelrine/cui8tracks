@@ -2,6 +2,9 @@ source "http://rubygems.org"
 
 gem 'pit'
 gem 'notify'
+gem 'lastfm'
+gem 'json'
+gem 'i18n'
 
 group :development do
   gem "rspec", "~> 2.3.0"

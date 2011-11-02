@@ -11,6 +11,7 @@ require 'tmpdir'
 
 require 'pit'
 require 'notify'
+require 'lastfm'
 
 module CUI8Tracks
   require 'cui8tracks/cli'

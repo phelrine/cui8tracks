@@ -8,11 +8,12 @@ Gem::Specification.new do |s|
   s.version = "0.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = [%q{hitode909}]
-  s.date = %q{2011-10-17}
+  s.authors = ["hitode909"]
+  s.date = %q{2011-11-03}
+  s.default_executable = %q{cui8tracks}
   s.description = %q{8tracks player on terminal}
   s.email = %q{hitode909@gmail.com}
-  s.executables = [%q{cui8tracks}]
+  s.executables = ["cui8tracks"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
@@ -40,9 +41,9 @@ Gem::Specification.new do |s|
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/hitode909/cui8tracks}
-  s.licenses = [%q{MIT}]
-  s.require_paths = [%q{lib}]
-  s.rubygems_version = %q{1.8.6}
+  s.licenses = ["MIT"]
+  s.require_paths = ["lib"]
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{8tracks player}
   s.test_files = [
     "spec/cui8tracks_spec.rb",
@@ -50,11 +51,15 @@ Gem::Specification.new do |s|
   ]
 
   if s.respond_to? :specification_version then
+    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<pit>, [">= 0"])
       s.add_runtime_dependency(%q<notify>, [">= 0"])
+      s.add_runtime_dependency(%q<lastfm>, [">= 0"])
+      s.add_runtime_dependency(%q<json>, [">= 0"])
+      s.add_runtime_dependency(%q<i18n>, [">= 0"])
       s.add_development_dependency(%q<rspec>, ["~> 2.3.0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
@@ -62,6 +67,9 @@ Gem::Specification.new do |s|
     else
       s.add_dependency(%q<pit>, [">= 0"])
       s.add_dependency(%q<notify>, [">= 0"])
+      s.add_dependency(%q<lastfm>, [">= 0"])
+      s.add_dependency(%q<json>, [">= 0"])
+      s.add_dependency(%q<i18n>, [">= 0"])
       s.add_dependency(%q<rspec>, ["~> 2.3.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
@@ -70,6 +78,9 @@ Gem::Specification.new do |s|
   else
     s.add_dependency(%q<pit>, [">= 0"])
     s.add_dependency(%q<notify>, [">= 0"])
+    s.add_dependency(%q<lastfm>, [">= 0"])
+    s.add_dependency(%q<json>, [">= 0"])
+    s.add_dependency(%q<i18n>, [">= 0"])
     s.add_dependency(%q<rspec>, ["~> 2.3.0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])

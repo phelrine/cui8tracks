@@ -19,6 +19,7 @@ class CUI8Tracks::Session
       opt.on('-s SORT', '--sort', '[recent|hot|popular|random]')  {|v| @config[:sort] = v}
       opt.on('--no-play', "don't play tracks")  {|v| @config[:no_play] = true}
       opt.on('--play_from FROM', 'play from [FROM]th mix')  {|v| @config[:play_from] = v.to_i}
+      opt.on('--lastfm', desc = 'scrobble tracks to last.fm') {|v| @config[:lastfm] = v}
       opt.on('--verbose', 'print mplayer output')  {|v| @config[:verbose] = v}
       opt.on('--debug', 'debug-mode')  {|v| @config[:debug] = v}
       opt.parse(argv)
@@ -33,6 +34,24 @@ class CUI8Tracks::Session
     @api = CUI8Tracks::API.new(username, password)
     @api.session = self
     @api.login
+
+    return unless config[:lastfm]
+
+    logger.info "Connect last.fm"
+    @lastfm = Lastfm.new LASTFM_KEY, LASTFM_SECRET
+
+    pit = Pit.get LASTFM_NAME
+    if pit.key? "session"
+      @lastfm.session = pit["session"]
+    else
+      token = @lastfm.auth.get_token
+      CUI8Tracks::CLI::open_browser "http://www.last.fm/api/auth/?token=#{token}&api_key=#{LASTFM_KEY}"
+
+      puts "Auth and Hit Return Key"
+      STDIN.gets
+      @lastfm.session = @lastfm.auth.get_session token
+      Pit.set LASTFM_NAME, :data => { "session" => @lastfm.session }
+    end
   end
 
   def play
@@ -52,6 +71,10 @@ class CUI8Tracks::Session
         @current_track = track
         logger.info "Playing track"
         track.info
+        if @config[:lastfm]
+          @lastfm.track.scrobble track.performer, track.name, nil, Time.now.utc.to_i
+          @lastfm.track.update_now_playing track.performer, track.name
+        end
         track.play
         while track.playing?
           sleep 1
@@ -149,4 +172,8 @@ class CUI8Tracks::Session
       end
     }
   end
+
+  LASTFM_KEY = "44ae23de1ecf37a6ecab21bf82afd42e"
+  LASTFM_SECRET = "f8d325d39f94a589663f06e1fb81a941"
+  LASTFM_NAME = "cui8tracks_scrobbler"
 end
